@@ -1,0 +1,75 @@
+{
+  "appId": "edu.ucsd.etta.time-tracker",
+  "productName": "ETTA Time Tracker",
+  "asar": true,
+  "npmRebuild": false,
+  "directories": {
+    "output": "artifacts"
+  },
+  "files": [
+    "dist-electron/**/*",
+    "package.json",
+    "!node_modules/**/*"
+  ],
+  "extraResources": [
+    {
+      "from": ".next/standalone/server.js",
+      "to": "next/server.js"
+    },
+    {
+      "from": ".next/standalone/package.json",
+      "to": "next/package.json"
+    },
+    {
+      "from": ".next/standalone/.next",
+      "to": "next/.next",
+      "filter": ["**/*", "!node_modules/**/*"]
+    },
+    {
+      "from": ".next/standalone/.next/node_modules",
+      "to": "next/.next/node_modules",
+      "filter": ["**/*"]
+    },
+    {
+      "from": ".next/standalone/public",
+      "to": "next/public"
+    },
+    {
+      "from": ".next/standalone/node_modules",
+      "to": "next/node_modules",
+      "filter": ["**/*"]
+    },
+    {
+      "from": "scripts",
+      "to": "outlook-scripts",
+      "filter": ["**/*.py"]
+    },
+    {
+      "from": "requirements.txt",
+      "to": "requirements.txt"
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "artifactName": "ETTA-Time-Tracker-Setup-${version}-${arch}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowElevation": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "ETTA Time Tracker"
+  },
+  "mac": {
+    "target": ["dmg"],
+    "category": "public.app-category.productivity",
+    "artifactName": "ETTA-Time-Tracker-${version}-${arch}.${ext}"
+  }
+}
