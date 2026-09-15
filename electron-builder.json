@@ -1,4 +1,4 @@
-{
+﻿{
   "appId": "edu.ucsd.etta.time-tracker",
   "productName": "ETTA Time Tracker",
   "asar": true,
@@ -73,7 +73,7 @@
       { "target": "zip", "arch": ["universal"] }
     ],
     "category": "public.app-category.productivity",
-    "artifactName": "ETTA-Time-Tracker-${version}-${arch}.${ext}"
+    "artifactName": "ETTA-Time-Tracker-${version}-${arch}.${ext}",
+    "x64ArchFiles": "**/prebuilds/**"
   }
 }
-
