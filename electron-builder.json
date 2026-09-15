@@ -74,6 +74,6 @@
     ],
     "category": "public.app-category.productivity",
     "artifactName": "ETTA-Time-Tracker-${version}-${arch}.${ext}",
-    "x64ArchFiles": "**/prebuilds/**"
+    "x64ArchFiles": "darwin-*.node"
   }
 }
