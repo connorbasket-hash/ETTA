@@ -68,8 +68,12 @@
     "shortcutName": "ETTA Time Tracker"
   },
   "mac": {
-    "target": ["dmg"],
+        "target": [
+      { "target": "dmg", "arch": ["universal"] },
+      { "target": "zip", "arch": ["universal"] }
+    ],
     "category": "public.app-category.productivity",
     "artifactName": "ETTA-Time-Tracker-${version}-${arch}.${ext}"
   }
 }
+

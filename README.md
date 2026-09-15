@@ -1,4 +1,4 @@
-# ETTA Time Tracker
+﻿# ETTA Time Tracker
 
 ETTA turns Outlook sent mail and calendar activity into reviewed Jira worklogs. This repository contains both the existing Next.js application and its Electron desktop shell.
 
@@ -38,10 +38,15 @@ The Electron window waits for the Next.js development server at `http://127.0.0.
 npm run lint
 npm run typecheck
 npm run build
-npm run package:win
+npm run package:win        # Windows NSIS installer
+npm run package:mac        # macOS universal .dmg + .zip (arm64 + x64)
 ```
 
 Windows installer output is written to `artifacts/`.
+
+### macOS builds and code signing
+
+ETTA has no Apple Developer signing identity, so macOS artifacts are currently **unsigned**. They must be built on macOS (an Apple machine or the `build-mac` GitHub Actions workflow) - electron-builder cannot produce a `.dmg` on Windows. Gatekeeper will prompt testers to **Open Anyway** on first launch until signing/notarization is added later.
 
 ## Migration status
 

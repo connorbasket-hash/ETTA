@@ -17,7 +17,8 @@
     "start": "electron .",
     "package": "npm run build && electron-builder --dir",
     "package:win": "npm run build && electron-builder --win nsis",
-    "package:mac": "npm run build && electron-builder --mac dmg",
+    "package:mac": "npm run build && electron-builder --mac",
+    "package:mac:universal": "npm run build && electron-builder --mac --universal",
     "lint": "eslint",
     "typecheck": "tsc --noEmit && tsc -p electron/tsconfig.json --noEmit"
   },
@@ -60,3 +61,4 @@
     "wait-on": "^8.0.5"
   }
 }
+
