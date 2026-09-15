@@ -1,21 +1,21 @@
-﻿# Builds ETTA's macOS universal .dmg (and .zip for future in-place updates) on a macOS runner.
-# Unsigned by design (no Apple Developer signing identity yet), so testers will use
-# Gatekeeper's "Open Anyway" on first launch. GitHub is used as the macOS build host because
-# the repo's Bitbucket already plays that role for Windows and we have no local macOS CI.
+﻿# Builds ETTA's macOS installation packages (separate arm64 and x64 .dmg + .zip) on a macOS runner.
+# Separate-arch (not universal) so native prebuilds (better-sqlite3, sharp, libvips) each ship
+# cleanly with no @electron/universal merge issues.
+# Unsigned by design (no Apple Developer signing identity yet), so testers use Gatekeeper's
+# "Open Anyway" on first launch. Trigger manually (workflow_dispatch) or on release tags only,
+# to avoid burning a CI run on every push.
 
 name: build-mac
 
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
       - '*ppmo*'
 
 jobs:
-  mac-universal:
+  mac-arm64-x64:
     runs-on: macos-14
     steps:
       - name: Check out source
@@ -34,22 +34,23 @@ jobs:
           npm run lint
           npm run typecheck
 
-      - name: Build universal macOS artifacts (dmg + zip)
+      - name: Build macOS artifacts (arm64 + x64, dmg + zip)
         run: npm run package:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
 
-      - name: Confirm universal architecture
+      - name: List artifacts (informational, non-failing arch report)
         run: |
-          APP=$(find artifacts -maxdepth 2 -name '*.app' | head -n1)
-          echo "Verifying $APP"
-          lipo -archs "$APP/Contents/MacOS/etta-time-tracker" || \
-          lipo -archs "$APP/Contents/MacOS/ETTA Time Tracker"
+          ls -lhR artifacts
+          find artifacts -name '*.app' | while read app; do
+            echo "== $app"
+            lipo -archs "$app/Contents/MacOS/ETTA Time Tracker" 2>/dev/null || true
+          done
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: etta-mac-universal
+          name: etta-mac
           path: |
             artifacts/**/*.dmg
             artifacts/**/*.zip

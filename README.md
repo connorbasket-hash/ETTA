@@ -39,7 +39,7 @@ npm run lint
 npm run typecheck
 npm run build
 npm run package:win        # Windows NSIS installer
-npm run package:mac        # macOS universal .dmg + .zip (arm64 + x64)
+npm run package:mac        # macOS .dmg + .zip for arm64 and x64
 ```
 
 Windows installer output is written to `artifacts/`.
