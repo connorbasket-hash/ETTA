@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "etta-time-tracker",
   "version": "0.1.0",
   "description": "ETTA desktop time-tracking application for Outlook and Jira.",
@@ -16,8 +16,8 @@
     "stage:standalone": "node scripts/stage-next-standalone.mjs",
     "start": "electron .",
     "package": "npm run build && electron-builder --dir",
-    "package:win": "npm run build && electron-builder --win nsis",
-    "package:mac": "npm run build && electron-builder --mac",
+    "package:win": "npm run build && electron-builder --win nsis --publish never",
+    "package:mac": "npm run build && electron-builder --mac --publish never",
     "package:mac:universal": "npm run build && electron-builder --mac --universal",
     "lint": "eslint",
     "typecheck": "tsc --noEmit && tsc -p electron/tsconfig.json --noEmit"
@@ -61,4 +61,3 @@
     "wait-on": "^8.0.5"
   }
 }
-
