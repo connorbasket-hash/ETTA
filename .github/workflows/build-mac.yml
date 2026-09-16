@@ -1,18 +1,15 @@
-﻿# Builds ETTA's macOS installation packages (separate arm64 and x64 .dmg + .zip) on a macOS runner.
+# Builds ETTA's macOS installation packages (separate arm64 and x64 .dmg + .zip) on a macOS runner.
 # Separate-arch (not universal) so native prebuilds (better-sqlite3, sharp, libvips) each ship
 # cleanly with no @electron/universal merge issues.
 # Unsigned by design (no Apple Developer signing identity yet), so testers use Gatekeeper's
-# "Open Anyway" on first launch. Trigger manually (workflow_dispatch) or on release tags only,
-# to avoid burning a CI run on every push.
+# "Open Anyway" on first launch. Manual build only (workflow_dispatch); version-tag releases
+# are published by release.yml so a single push doesn't build macOS twice.
 
 name: build-mac
 
 on:
+  # Manual-only build now: tag pushes are handled by release.yml so macOS is not built twice.
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
-      - '*ppmo*'
 
 jobs:
   mac-arm64-x64:

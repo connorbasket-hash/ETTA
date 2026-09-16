@@ -1,6 +1,11 @@
 {
   "appId": "edu.ucsd.etta.time-tracker",
   "productName": "ETTA Time Tracker",
+  "publish": {
+    "provider": "github",
+    "owner": "connorbasket-hash",
+    "repo": "ETTA"
+  },
   "asar": true,
   "npmRebuild": false,
   "directories": {

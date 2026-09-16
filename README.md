@@ -1,4 +1,4 @@
-﻿# ETTA Time Tracker
+# ETTA Time Tracker
 
 ETTA turns Outlook sent mail and calendar activity into reviewed Jira worklogs. This repository contains both the existing Next.js application and its Electron desktop shell.
 
@@ -43,6 +43,27 @@ npm run package:mac        # macOS .dmg + .zip for arm64 and x64
 ```
 
 Windows installer output is written to `artifacts/`.
+
+## Releases & in-place updates
+
+Releases are built by GitHub Actions on version tags, so installers are no longer shipped by
+hand.
+
+1. Bump `version` in `package.json` (single source of truth).
+2. Commit and push, then tag the release, e.g. `git tag v0.9.1 && git push github v0.9.1`.
+3. The `release` workflow builds and publishes both the Windows (NSIS) installer and the
+   macOS `arm64` + `x64` packages (dmg + zip) to the ETTA GitHub Releases feed
+   (`publish: { provider: github }` in `electron-builder.json`).
+
+`electron-updater` (wired in `electron/main.ts`) polls that same GitHub Releases feed and
+delivers in-place updates - testers install once, and later versions update automatically
+(`autoDownload` and `autoInstallOnAppQuit` are on). Version tags must increase, because
+`electron-updater` compares the feed version against the installed `app.getVersion()`.
+
+Manual handoff builds are still available:
+- `npm run package:win` / `npm run package:mac` - build locally with `--publish never`.
+- `.github/workflows/build-mac.yml` - manual macOS build (`--publish never`), uploads the
+  `etta-mac` GitHub Actions artifact for offline handoff.
 
 ### macOS builds and code signing
 
