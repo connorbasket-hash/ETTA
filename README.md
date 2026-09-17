@@ -50,7 +50,7 @@ Releases are built by GitHub Actions on version tags, so installers are no longe
 hand.
 
 1. Bump `version` in `package.json` (single source of truth).
-2. Commit and push, then tag the release, e.g. `git tag v0.9.1 && git push github v0.9.1`.
+2. Commit and push, then tag the release, e.g. `git tag v1.0.1 && git push github v1.0.1`.
 3. The `release` workflow builds and publishes both the Windows (NSIS) installer and the
    macOS `arm64` + `x64` packages (dmg + zip) to the ETTA GitHub Releases feed
    (`publish: { provider: github }` in `electron-builder.json`).
@@ -59,6 +59,10 @@ hand.
 delivers in-place updates - testers install once, and later versions update automatically
 (`autoDownload` and `autoInstallOnAppQuit` are on). Version tags must increase, because
 `electron-updater` compares the feed version against the installed `app.getVersion()`.
+
+`release.yml` publishes **Windows first**. The macOS job is gated on a repository variable
+`RELEASE_MACOS` (set it to `true` once the UCSD Developer ID signing handoff + secrets are
+ready); until then, only Windows artifacts are published to the feed, and macOS is signed separately.
 
 Manual handoff builds are still available:
 - `npm run package:win` / `npm run package:mac` - build locally with `--publish never`.

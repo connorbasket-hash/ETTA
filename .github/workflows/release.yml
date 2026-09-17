@@ -1,9 +1,9 @@
 # Tag-driven release pipeline for ETTA. On a version tag (v* or *ppmo*) this builds and
-# publishes BOTH the Windows NSIS installer and the macOS arm64+x64 packages (dmg + zip)
-# to the ETTA GitHub Releases feed (provider: github in electron-builder.json), which is
-# what electron-updater uses to deliver in-place updates. macOS signing/notarization is
-# intentionally not required here yet (CSC_IDENTITY_AUTO_DISCOVERY=false); add cert
-# secrets once the Apple Developer identity is in place.
+# publishes the Windows NSIS installer immediately through the GitHub Releases feed
+# (provider: github in electron-builder.json), which is what electron-updater uses for
+# in-place updates. The macOS job is gated on the Apple signing/notarization secrets
+# (CSC_LINK + APPLE_API_KEY), so macOS joins the feed only once the UCSD Developer ID
+# identity is added via the signing handoff; no source leaves the UCSD repo for that.
 #
 # `prepare-release` runs first so the GitHub Release exists before either OS uploads
 # assets, avoiding a concurrent create-on-first-upload race.
@@ -69,6 +69,8 @@ jobs:
 
   macos:
     needs: prepare-release
+    # Publish macOS only when the RELEASE_MACOS repo variable is 'true' (flip it once the UCSD Developer ID signing handoff + secrets are ready). Repo Variables, not secrets, because job-level if cannot read secrets.
+    if: ${{ vars.RELEASE_MACOS == 'true' }}
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
